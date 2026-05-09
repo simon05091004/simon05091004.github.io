@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>線上評量系統｜國小高年級</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --math:#1A5FB4;--math-l:#EEF4FF;--math-d:#0D3D8C;--math-mid:#3B82F6;
+  --chi:#D95B2A;--chi-l:#FDF0EC;--chi-d:#A8411A;
+  --bg:#F7F3EE;--white:#FFFFFF;
+  --text:#1E1A16;--text2:#6B5F54;--text3:#A89D94;
+  --border:#E4DDD5;
+  --rad:16px;--rad-sm:10px;
+}
+html{background:var(--bg)}
+body{font-family:'Noto Sans TC',sans-serif;color:var(--text);min-height:100vh;background:var(--bg)}
+
+/* ── TOP BAND ── */
+.top-band{background:var(--text);color:#fff;padding:10px 24px;display:flex;align-items:center;justify-content:space-between}
+.top-band-title{font-size:13px;letter-spacing:.06em;opacity:.7}
+.top-band-date{font-size:12px;opacity:.5;font-family:'Noto Sans TC',sans-serif}
+
+/* ── HERO ── */
+.hero{padding:3rem 24px 2rem;text-align:center;max-width:760px;margin:0 auto}
+.hero-kicker{display:inline-block;font-size:12px;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;margin-bottom:14px;padding:5px 14px;border:1px solid var(--border);border-radius:20px}
+.hero-title{font-family:'Noto Serif TC',serif;font-size:clamp(26px,5vw,40px);font-weight:700;color:var(--text);line-height:1.25;margin-bottom:12px}
+.hero-sub{font-size:15px;color:var(--text2);line-height:1.7;max-width:440px;margin:0 auto}
+
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:760px;margin:2.5rem auto 0;padding:0 20px}
+
+/* ── SUBJECT CARD ── */
+.subj-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;text-decoration:none;display:block}
+.subj-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
+.card-top{padding:28px 26px 22px;position:relative}
+.card-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px}
+.card-icon.math{background:var(--math-l)}
+.card-icon.chi{background:var(--chi-l)}
+.card-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.card-label.math{color:var(--math)}
+.card-label.chi{color:var(--chi)}
+.card-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px}
+.card-sub{font-size:13px;color:var(--text2);line-height:1.6}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.tag.math{background:var(--math-l);color:var(--math-d)}
+.tag.chi{background:var(--chi-l);color:var(--chi-d)}
+.card-divider{height:1px;background:var(--border);margin:0 26px}
+.card-bottom{padding:18px 26px}
+.qr-row{display:flex;align-items:center;gap:14px}
+.qr-wrap{flex-shrink:0;width:72px;height:72px;background:var(--bg);border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.qr-wrap img{width:64px;height:64px;border-radius:6px}
+.qr-info{flex:1}
+.qr-hint{font-size:11px;color:var(--text3);margin-bottom:6px}
+.go-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rad-sm);font-size:13px;font-weight:500;text-decoration:none;transition:background .15s;border:none;cursor:pointer;font-family:inherit}
+.go-btn.math{background:var(--math);color:#fff}.go-btn.math:hover{background:var(--math-d)}
+.go-btn.chi{background:var(--chi);color:#fff}.go-btn.chi:hover{background:var(--chi-d)}
+.go-btn svg{width:14px;height:14px;fill:currentColor}
+
+/* ── TEACHER SECTION ── */
+.teacher-section{max-width:760px;margin:2rem auto 0;padding:0 20px}
+.teacher-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rad);padding:24px 26px}
+.teacher-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.teacher-icon{width:36px;height:36px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center}
+.teacher-icon svg{width:18px;height:18px;fill:#fff}
+.teacher-title{font-size:15px;font-weight:700;color:var(--text)}
+.teacher-sub{font-size:12px;color:var(--text2);margin-top:1px}
+.teacher-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.teacher-btn{display:flex;align-items:center;gap:10px;padding:13px 16px;border:1px solid var(--border);border-radius:var(--rad-sm);text-decoration:none;transition:all .15s;background:var(--bg)}
+.teacher-btn:hover{border-color:var(--text3);background:var(--white)}
+.teacher-btn-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.teacher-btn-dot.math{background:var(--math)}
+.teacher-btn-dot.chi{background:var(--chi)}
+.teacher-btn-text{font-size:13px;font-weight:500;color:var(--text)}
+.teacher-btn-arrow{margin-left:auto;font-size:16px;color:var(--text3)}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:2.5rem 20px 3rem;font-size:12px;color:var(--text3)}
+
+/* ── BADGE ── */
+.live-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 10px;border-radius:20px;background:#DCFCE7;color:#166534;margin-left:8px;vertical-align:middle}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#16A34A;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── FADE IN ── */
+.fade-in{opacity:0;transform:translateY(16px);animation:fadeUp .5s ease forwards}
+.fade-in:nth-child(1){animation-delay:.1s}
+.fade-in:nth-child(2){animation-delay:.2s}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:480px){
+  .teacher-grid{grid-template-columns:1fr}
+  .card-top{padding:22px 20px 18px}
+  .card-bottom{padding:14px 20px}
+  .card-divider{margin:0 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="top-band">
+  <span class="top-band-title">國小高年級 · 線上評量系統</span>
+  <span class="top-band-date" id="dateStr"></span>
+</div>
+
+<div class="hero">
+  <div class="hero-kicker">Online Assessment Platform</div>
+  <h1 class="hero-title">班級評量入口</h1>
+  <p class="hero-sub">選擇下方科目，掃描 QR Code 或直接點選即可開始作答。所有記錄同步雲端，老師可隨時查閱。</p>
+  <span class="live-badge"><span class="live-dot"></span>系統運作中</span>
+</div>
+
+<div class="grid">
+
+  <!-- 數學 -->
+  <a class="subj-card fade-in" href="https://simon05091004.github.io/math-quiz/" target="_blank">
+    <div class="card-top">
+      <div class="card-icon math">🔢</div>
+      <div class="card-label math">Mathematics</div>
+      <div class="card-title">數學評量系統</div>
+      <div class="card-sub">國小高年級數學概念評量，即時回饋學習成效。</div>
+      <div class="card-tags">
+        <span class="tag math">數與計算</span>
+        <span class="tag math">幾何圖形</span>
+        <span class="tag math">數學應用</span>
+      </div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-bottom">
+      <div class="qr-row">
+        <div class="qr-wrap">
+          <img id="qrMath" src="" alt="數學評量 QR Code"/>
+        </div>
+        <div class="qr-info">
+          <div class="qr-hint">📱 掃描 QR Code 作答</div>
+          <span class="go-btn math">
+            前往作答
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- 國語 -->
+  <a class="subj-card fade-in" href="https://simon05091004.github.io/quiz-rhetoric/" target="_blank">
+    <div class="card-top">
+      <div class="card-icon chi">✍️</div>
+      <div class="card-label chi">Chinese Language</div>
+      <div class="card-title">修辭與複句測驗</div>
+      <div class="card-sub">修辭技巧與複句結構，共 20 題選擇題。</div>
+      <div class="card-tags">
+        <span class="tag chi">比喻・擬人・排比</span>
+        <span class="tag chi">因果・假設複句</span>
+      </div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-bottom">
+      <div class="qr-row">
+        <div class="qr-wrap">
+          <img id="qrChi" src="" alt="修辭複句 QR Code"/>
+        </div>
+        <div class="qr-info">
+          <div class="qr-hint">📱 掃描 QR Code 作答</div>
+          <span class="go-btn chi">
+            前往作答
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<!-- 教師專區 -->
+<div class="teacher-section">
+  <div class="teacher-card">
+    <div class="teacher-header">
+      <div class="teacher-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
+      </div>
+      <div>
+        <div class="teacher-title">教師專區</div>
+        <div class="teacher-sub">查閱各科作答歷程與補救教學建議</div>
+      </div>
+    </div>
+    <div class="teacher-grid">
+      <a class="teacher-btn" href="https://simon05091004.github.io/math-quiz/#teacher" target="_blank">
+        <span class="teacher-btn-dot math"></span>
+        <span class="teacher-btn-text">數學評量歷程查閱</span>
+        <span class="teacher-btn-arrow">→</span>
+      </a>
+      <a class="teacher-btn" href="https://simon05091004.github.io/quiz-rhetoric/#teacher" target="_blank">
+        <span class="teacher-btn-dot chi"></span>
+        <span class="teacher-btn-text">修辭複句歷程查閱</span>
+        <span class="teacher-btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>國小高年級線上評量系統 · 作答記錄儲存於雲端</p>
+  <p style="margin-top:6px">教師密碼：teacher123</p>
+</div>
+
+<script>
+const MATH_URL='https://simon05091004.github.io/math-quiz/';
+const CHI_URL='https://simon05091004.github.io/quiz-rhetoric/';
+const QR='https://api.qrserver.com/v1/create-qr-code/?size=64x64&';
+
+document.getElementById('qrMath').src=QR+'color=1A5FB4&bgcolor=EEF4FF&data='+encodeURIComponent(MATH_URL);
+document.getElementById('qrChi').src=QR+'color=D95B2A&bgcolor=FDF0EC&data='+encodeURIComponent(CHI_URL);
+
+const d=new Date();
+document.getElementById('dateStr').textContent=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';
+</script>
+</body>
+</html>
